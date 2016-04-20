@@ -7,6 +7,7 @@ from django.views.decorators.vary import vary_on_headers
 from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db.models.query import QuerySet, RawQuerySet
+from django.utils import six
 import django
 
 from emitters import Emitter
@@ -228,7 +229,15 @@ class Resource(object):
         if not isinstance(result, HttpResponse):
             return False
         elif django.VERSION >= (1, 4):
-            return result._base_content_is_iter
+            if result.status_code in {304, 401}:
+                # taken from Django (_base_content_iter = False)
+                return False
+            # taken from Django
+            value = result._container
+            if hasattr(value, '__iter__') and not isinstance(value, (bytes, six.string_types)):
+                return True
+            else:
+                return False
         else:
             return not result._is_string
 
