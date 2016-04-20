@@ -228,18 +228,7 @@ class Resource(object):
         """True iff result is a HttpResponse and contains non-string content."""
         if not isinstance(result, HttpResponse):
             return False
-        elif django.VERSION >= (1, 4):
-            if result.status_code in {304, 401}:
-                # taken from Django (_base_content_iter = False)
-                return False
-                # taken from Django
-            value = result._container
-            if hasattr(value, '__iter__') and not isinstance(value, (bytes, six.string_types)):
-                return True
-            else:
-                return False
-        else:
-            return not result._is_string
+        return getattr(result, '_use_emitter', False)
 
     @staticmethod
     def cleanup_request(request):
