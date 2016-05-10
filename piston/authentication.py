@@ -4,7 +4,8 @@ import logging
 import oauth2  # third party lib
 import oauth
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.template import loader
 from django.contrib.auth import authenticate
@@ -80,7 +81,7 @@ class HttpBasicAuthentication(object):
 
 class HttpBasicSimple(HttpBasicAuthentication):
     def __init__(self, realm, username, password):
-        self.user = User.objects.get(username=username)
+        self.user = get_user_model().objects.get(username=username)
         self.password = password
 
         super(HttpBasicSimple, self).__init__(auth_func=self.hash, realm=realm)
