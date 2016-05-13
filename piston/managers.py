@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.db import connections, router, transaction, IntegrityError
 
 
@@ -10,11 +10,11 @@ class KeyManager(models.Manager):
     '''Add support for random key/secret generation
     '''
     def generate_random_codes(self):
-        key = User.objects.make_random_password(length=KEY_SIZE)
-        secret = User.objects.make_random_password(length=SECRET_SIZE)
+        key = get_user_model().objects.make_random_password(length=KEY_SIZE)
+        secret = get_user_model().objects.make_random_password(length=SECRET_SIZE)
 
         while self.filter(key__exact=key, secret__exact=secret).count():
-            secret = User.objects.make_random_password(length=SECRET_SIZE)
+            secret = get_user_model().objects.make_random_password(length=SECRET_SIZE)
 
         return key, secret
 

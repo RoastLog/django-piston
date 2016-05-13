@@ -1,6 +1,6 @@
 # Django imports
 from django.core import mail
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.conf import settings
 from django.template import loader, TemplateDoesNotExist
 from django.http import HttpRequest, HttpResponse
@@ -20,7 +20,7 @@ class ConsumerTest(TestCase):
         self.consumer = Consumer()
         self.consumer.name = "Piston Test Consumer"
         self.consumer.description = "A test consumer for Piston."
-        self.consumer.user = User.objects.get(pk=3)
+        self.consumer.user = get_user_model().objects.get(pk=3)
         self.consumer.generate_random_codes()
 
     def _pre_test_email(self):

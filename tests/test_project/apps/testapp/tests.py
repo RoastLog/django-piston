@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.utils import simplejson
 from django.conf import settings
 
@@ -20,7 +20,7 @@ from test_project.apps.testapp import signals
 
 class MainTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user('admin', 'admin@world.com', 'admin')
+        self.user = get_user_model().objects.create_user('admin', 'admin@world.com', 'admin')
         self.user.is_staff = True
         self.user.is_superuser = True
         self.user.is_active = True
