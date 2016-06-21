@@ -11,7 +11,7 @@ from django.contrib.sites.models import Site
 from decorator import decorator
 
 
-__version__ = '0.3'
+__version__ = '0.3.1'
 
 
 def get_version():
