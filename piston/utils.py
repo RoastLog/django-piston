@@ -17,7 +17,7 @@ __version__ = '0.3.1'
 def get_version():
     return __version__
 
-
+@callable
 def milliseconds_now():
     return int(time.time() * 1000)
 
