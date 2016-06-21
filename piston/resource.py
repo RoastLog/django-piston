@@ -8,7 +8,7 @@ from django.conf import settings
 from django.core.mail import EmailMessage
 from django.db.models.query import QuerySet, RawQuerySet
 from django.utils import six
-import django
+import time
 
 from emitters import Emitter
 from handler import typemapper
@@ -251,6 +251,9 @@ class Resource(object):
         return request
 
     # --
+
+    def milliseconds_now(self):
+        return int(time.time() * 1000)
 
     def email_exception(self, reporter):
         subject = "Piston crash report"
