@@ -5,7 +5,7 @@ from django.db.models.signals import post_save, post_delete
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.conf import settings
-from django.core.mail import send_mail, mail_admins
+from utils import milliseconds_now
 
 # Piston imports
 from managers import TokenManager, ConsumerManager, ResourceManager
@@ -80,7 +80,7 @@ class Token(models.Model):
     secret = models.CharField(max_length=SECRET_SIZE)
     verifier = models.CharField(max_length=VERIFIER_SIZE)
     token_type = models.IntegerField(choices=TOKEN_TYPES)
-    timestamp = models.IntegerField(default=long(time.time))
+    timestamp = models.IntegerField(default=milliseconds_now)
     is_approved = models.BooleanField(default=False)
     
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, related_name='tokens')

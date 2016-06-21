@@ -11,11 +11,15 @@ from django.contrib.sites.models import Site
 from decorator import decorator
 
 
-__version__ = '0.3.2'
+__version__ = '0.3.1'
 
 
 def get_version():
     return __version__
+
+
+def milliseconds_now():
+    return int(time.time() * 1000)
 
 
 def format_error(error):
